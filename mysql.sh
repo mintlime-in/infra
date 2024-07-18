@@ -1,7 +1,9 @@
+#!/bin/bash
+
 kubecontext="docker-desktop"
+
 cat <<-EOF
     Using '${kubecontext}' kube-context
-    ENSURE YOU HAVE CONFIGURED STATIC IP FROM YOUR ROUTER
 EOF
 
 helm repo add mysql-operator https://mysql.github.io/mysql-operator/

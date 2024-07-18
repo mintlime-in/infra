@@ -1,3 +1,4 @@
+#!/bin/bash
 
 kubecontext="docker-desktop"
 
@@ -8,7 +9,7 @@ EOF
 read -p "What is your machine static ip? " ip
 
 if [[ $ip != "" ]]; then
-helm --kube-context ${kubecontext} repo add metallb https://metallb.github.io/metallb
+helm repo add metallb https://metallb.github.io/metallb
 helm --kube-context ${kubecontext} upgrade --install metallb metallb/metallb \
 --namespace metallb-system --create-namespace
 sleep 15
