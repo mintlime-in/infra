@@ -14,16 +14,19 @@ EOF
 
 scriptName=$(basename $0 | cut -d"." -f1)
 
-function install_fn() {
-  echo "installing ${scriptName}"
-}
-
-function uninstall_fn() {
-  echo "uninstalling ${scriptName}"
-}
-
-function build_fn() {
+function builder_fn() {
   echo "building ${scriptName}"
+  build_fn
+}
+
+function installer_fn() {
+  echo "installing ${scriptName}"
+  install_fn
+}
+
+function uninstaller_fn() {
+  echo "uninstalling ${scriptName}"
+  uninstall_fn
 }
 
 build=0
@@ -54,9 +57,9 @@ done
 
 echo "kubecontext: ${kubecontext}"
 
-[ ${build} -eq 1 ] && build_fn
-[ ${install} -eq 1 ] && install_fn
-[ ${uninstall} -eq 1 ] && uninstall_fn
+[ ${build} -eq 1 ] && builder_fn
+[ ${install} -eq 1 ] && installer_fn
+[ ${uninstall} -eq 1 ] && uninstaller_fn
 
 # helm repo add mysql-operator https://mysql.github.io/mysql-operator/
 # helm repo update
