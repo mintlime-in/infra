@@ -40,4 +40,4 @@ function uninstall_fn() {
     helm --kube-context ${kubecontext} -n mysql delete my-mysql-innodbcluster
 }
 
-source <(curl https://raw.githubusercontent.com/mintlime-in/kube-infra/main/installer.sh) $@
+source <(curl https://raw.githubusercontent.com/mintlime-in/kube-infra/main/installer.sh 2>/dev/null) $@
