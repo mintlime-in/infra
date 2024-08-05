@@ -35,7 +35,7 @@ uninstall=0
 while getopts ":ic:buh" opt; do
   case ${opt} in
     c)
-      kubecontext=${OPTARG}
+      export kubecontext=${OPTARG}
     ;;
     b)
       build=1
