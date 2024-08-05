@@ -1,37 +1,16 @@
 #!/bin/bash
 
-kubecontext="docker-desktop"
+function install_fn() {
+  helm --kube-context ${kubecontext} upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  -n ingress-nginx --create-namespace
+}
 
-cat <<-EOF
-    Using '${kubecontext}' kube-context
-    ENSURE YOU HAVE CONFIGURED STATIC IP FROM YOUR ROUTER
-EOF
-read -p "What is your machine static ip? " ip
+function uninstall_fn() {
+  helm --kube-context ${kubecontext} uninstall ingress-nginx -n ingress-nginx
+}
 
-if [[ $ip != "" ]]; then
-helm repo add metallb https://metallb.github.io/metallb
-helm --kube-context ${kubecontext} upgrade --install metallb metallb/metallb \
---namespace metallb-system --create-namespace
-sleep 15
-# kubectl -n metallb-system wait --for=condition=Ready pod/busybox1
-cat <<-EOF | kubectl --context ${kubecontext} --namespace metallb-system apply -f -
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: first-pool
-  namespace: metallb-system
-spec:
-  addresses:
-  - ${ip}/32
-EOF
-
-else
-  echo "Metallb loadbalancer Not configured"
-fi
-
-helm --kube-context ${kubecontext} upgrade --install ingress-nginx ingress-nginx \
---repo https://kubernetes.github.io/ingress-nginx \
---namespace ingress-nginx --create-namespace
+source <(curl https://raw.githubusercontent.com/mintlime-in/kube-infra/main/installer.sh 2>/dev/null) $@
 
 # An example Ingress that makes use of the controller:
 #   apiVersion: networking.k8s.io/v1

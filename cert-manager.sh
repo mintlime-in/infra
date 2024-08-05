@@ -5,12 +5,11 @@ function install_fn() {
     --set crds.enabled=true \
     -n cert-manager \
     --create-namespace
-    # kubectl --context ${kubecontext} -n cert-manager wait --for-condition=Ready
     cat <<-EOF | kubectl --context ${kubecontext} -n cert-manager apply -f -
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-    name: selfSigned-root-issuer
+    name: selfsigned-root-issuer
 spec:
     selfSigned: {}
 EOF
