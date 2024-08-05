@@ -36,8 +36,8 @@ EOF
 
 function uninstall_fn() {
     kubectl --context ${kubecontext} -n mysql svc mysql-nodeport
-    helm --kube-context ${kubecontext} -n mysql delete my-mysql-operator
-    helm --kube-context ${kubecontext} -n mysql delete my-mysql-innodbcluster
+    helm --kube-context ${kubecontext} -n mysql uninstall my-mysql-operator
+    helm --kube-context ${kubecontext} -n mysql uninstall my-mysql-innodbcluster
 }
 
 source <(curl https://raw.githubusercontent.com/mintlime-in/kube-infra/main/installer.sh 2>/dev/null) $@
